@@ -24,7 +24,7 @@ public enum GlobalErrorCode implements ErrorCode {
     PROJECT_NAME_DUPLICATE(HttpStatus.CONFLICT, "GLB_409", "이미 존재하는 프로젝트 이름입니다."),
 
     // 500
-    IMAGE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "GLB500", "이미지 업로드에 실패했습니다."),
+    IMAGE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "GLB_500", "이미지 업로드에 실패했습니다."),
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "GLB_500", "서버 오류가 발생했습니다.");
 
     private final HttpStatus status;
