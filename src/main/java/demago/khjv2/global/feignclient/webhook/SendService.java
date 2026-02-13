@@ -25,12 +25,14 @@ public class SendService {
     }
 
     public String buildMessage(Exception e, String method, String uri) {
+        String exceptionMsg = e.getMessage() != null ? e.getMessage() : "No message available";
         String errorMessage = """
-            ## Internal Server Error
+            ## Exception Alert
             - Method: `%s`
             - URI: `%s`
-            - %s
-            """.formatted(method, uri, e.getMessage());
+            - Exception: `%s`
+            - Message: %s
+            """.formatted(method, uri, e.getClass().getSimpleName(), exceptionMsg);
 
         // 2000자 이상이면 자름
         if (errorMessage.length() > 2000) {
