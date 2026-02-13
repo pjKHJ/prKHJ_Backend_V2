@@ -28,11 +28,15 @@ public class GlobalExceptionHandler {
     private final SendService sendService;
 
     @ExceptionHandler(KHJException.class)
-    public ResponseEntity<ErrorResponse> handleSimvexException(KHJException e, HttpServletRequest request) {
+    public ResponseEntity<ErrorResponse> handleKHJException(KHJException e, HttpServletRequest request) {
         var ec = e.getErrorCode();
         String message = e.getMessage() != null ? e.getMessage() : ec.getMessage();
 
-        sendService.sendDiscordAlert(e, request.getMethod(), request.getRequestURI());
+        try {
+            sendService.sendDiscordAlert(e, request.getMethod(), request.getRequestURI());
+        } catch (Exception ex) {
+            log.warn("Discord 알림 전송 실패", ex);
+        }
 
         return ResponseEntity
                 .status(ec.getStatus())
