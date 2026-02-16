@@ -33,7 +33,7 @@ public class AuthService {
 //            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
 //        }
 
-        if (verificationService.verify(request.code())) {
+        if (!verificationService.verify(request.code())) {
             throw new KHJException(UserErrorCode.INVALID_VERIFICATION_CODE);
         }
 
