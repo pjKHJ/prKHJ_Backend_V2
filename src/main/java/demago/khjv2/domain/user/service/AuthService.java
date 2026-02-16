@@ -10,6 +10,8 @@ import demago.khjv2.domain.user.repository.UserRepository;
 import demago.khjv2.global.error.exception.KHJException;
 import demago.khjv2.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,12 +24,18 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final VerificationService verificationService;
 
     @Transactional
     public JoinResponse join(JoinRequest request) {
+
 //        if (memberRepository.existsByEmail(request.email())) {
 //            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
 //        }
+
+        if (verificationService.verify(request.code())) {
+            throw new KHJException(UserErrorCode.INVALID_VERIFICATION_CODE);
+        }
 
         User user = User.of(
                 request.username(),
