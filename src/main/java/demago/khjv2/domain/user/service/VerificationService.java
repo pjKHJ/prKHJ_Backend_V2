@@ -8,7 +8,7 @@ public class VerificationService {
 
     private final String expectedCode;
 
-    public VerificationService(@Value("${spring.user.code}") String expectedCode) {
+    public VerificationService(@Value("${app.verification.code}") String expectedCode) {
         this.expectedCode = expectedCode;
     }
 
