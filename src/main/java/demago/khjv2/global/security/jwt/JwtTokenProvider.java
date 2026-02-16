@@ -77,7 +77,11 @@ public class JwtTokenProvider {
     }
 
     public Long getUserId(String token) {
-        return Long.parseLong(parseClaims(token).getSubject());
+        try {
+            return Long.parseLong(parseClaims(token).getSubject());
+        } catch (NumberFormatException e) {
+            throw new JwtException("잘못된 토큰 형식입니다", e);
+        }
     }
 
     private Claims parseClaims(String token) {
