@@ -12,7 +12,7 @@ public enum UserErrorCode implements ErrorCode {
     USER_ERROR_CODE(HttpStatus.NOT_FOUND, "MBR_404", "존재하지 않는 유저입니다."),
 
     // 409
-    EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "MBR_409", "이미 가입된 이름입니다."),
+    USERNAME_ERROR_CODE(HttpStatus.CONFLICT, "MBR_409", "이미 가입된 이름입니다."),
 
     // 400
     INVALID_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, "MBR_400", "인증 코드가 올바르지 않습니다.");

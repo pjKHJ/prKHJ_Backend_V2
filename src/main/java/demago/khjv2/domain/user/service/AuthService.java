@@ -39,7 +39,7 @@ public class AuthService {
 
             return new JoinResponse(saved.getUsername());
         } catch (DataIntegrityViolationException e) {
-            throw new KHJException(UserErrorCode.EMAIL_ALREADY_EXISTS);
+            throw new KHJException(UserErrorCode.USERNAME_ERROR_CODE);
 
         }
     }
