@@ -37,9 +37,9 @@ public class JwtTokenProvider {
         Date expiry = new Date(now.getTime() + properties.getAccessTokenExpiration());
 
         return Jwts.builder()
-                .setSubject(String.valueOf(userId))
-                .setIssuedAt(now)
-                .setExpiration(expiry)
+                .subject(String.valueOf(userId))
+                .issuedAt(now)
+                .expiration(expiry)
                 .claim(CLAIM_TYPE, TOKEN_TYPE_ACCESS)
                 .claim("username", username)
                 .claim(CLAIM_AUTHORITIES, java.util.List.of("ROLE_USER"))
