@@ -16,14 +16,14 @@ public class User {
     private Long id;
 
     @Column(length = 50, nullable = false, unique = true)
-    private String name;
+    private String username;
 
     @Column(length = 255, nullable = false)
     private String password;
 
-    public static User of(String name, String encodedPassword) {
+    public static User of(String username, String encodedPassword) {
         return User.builder()
-                .name(name)
+                .username(username)
                 .password(encodedPassword)
                 .build();
     }
