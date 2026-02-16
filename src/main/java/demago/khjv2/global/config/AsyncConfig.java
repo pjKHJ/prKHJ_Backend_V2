@@ -1,4 +1,4 @@
-package demago.khjv2.global.config.filter;
+package demago.khjv2.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
