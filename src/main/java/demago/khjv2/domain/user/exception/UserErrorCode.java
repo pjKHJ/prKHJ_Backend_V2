@@ -9,13 +9,13 @@ public enum UserErrorCode implements ErrorCode {
     INVALID_CREDENTIALS(HttpStatus.UNAUTHORIZED, "USR_401", "이름 또는 비밀번호가 올바르지 않습니다."),
 
     // 404
-    USER_ERROR_CODE(HttpStatus.NOT_FOUND, "MBR_404", "존재하지 않는 유저입니다."),
+    USER_ERROR_CODE(HttpStatus.NOT_FOUND, "USR_404", "존재하지 않는 유저입니다."),
 
     // 409
-    USERNAME_ERROR_CODE(HttpStatus.CONFLICT, "MBR_409", "이미 가입된 이름입니다."),
+    USERNAME_ERROR_CODE(HttpStatus.CONFLICT, "USR_409", "이미 가입된 이름입니다."),
 
     // 400
-    INVALID_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, "MBR_400", "인증 코드가 올바르지 않습니다.");
+    INVALID_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, "USR_400", "인증 코드가 올바르지 않습니다.");
 
     private final HttpStatus status;
     private final String code;
