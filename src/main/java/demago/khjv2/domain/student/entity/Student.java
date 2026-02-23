@@ -114,3 +114,4 @@ public class Student {
 
 
 }
+//2. 관계 매핑 누락 (STUDENT_DETAIL 및 STUDENT_GRASS) 문제는 상관 없다고 함
