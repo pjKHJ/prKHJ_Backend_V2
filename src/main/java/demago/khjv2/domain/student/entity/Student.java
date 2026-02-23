@@ -21,14 +21,10 @@ import java.util.Objects;
 
 @Entity
 @Table(
-        name = "students",
+        name = "student",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_students_student_no", columnNames = {"student_no"}),
-                @UniqueConstraint(name = "uk_students_boj_id", columnNames = {"boj_id"})
-        },
-        indexes = {
-                @Index(name = "idx_students_student_no", columnList = "student_no"),
-                @Index(name = "idx_students_boj_id", columnList = "boj_id")
+                @UniqueConstraint(name = "uk_student_student_no", columnNames = {"student_no"}),
+                @UniqueConstraint(name = "uk_student_boj_id", columnNames = {"boj_id"})
         }
 )
 @Getter
@@ -65,7 +61,7 @@ public class Student {
 
     //학생의 학번
     //수정 못하게 만듬
-    @Column(name = "student_no", nullable = false, updatable = false)
+    @Column(name = "student_no", nullable = false, updatable = false, columnDefinition = "MEDIUMINT")
     private Integer studentNo;
 
     //학생의 백준 ID
