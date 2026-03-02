@@ -8,9 +8,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
- //벌크 등록할 때 중복 학생은 스킵하고 성공한 학생들만 저장하려고 만든 서비스
-
- //한 명 실패해도 전체가 망가지지 않게 각 저장마다 새로운 트랜잭션을 함
+ //벌크 등록 시 부분 성공을 위한 Write 전용 서비스.
+ //각 학생 저장마다 독립 트랜잭션을 사용한다.
 
 @Service
 @RequiredArgsConstructor
