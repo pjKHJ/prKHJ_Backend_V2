@@ -97,7 +97,8 @@ public class Student {
     // 객체를 해시 값으로 변환해 컬렉션에서 빠른 검색을 위한 메서드
     @Override
     public final int hashCode() {
-        return getClass().hashCode();
+        return Hibernate.getClass(this).hashCode();
+
     }
 
     //student 객체 출력할때 보기 좋게 만들어주는 메소드이다
