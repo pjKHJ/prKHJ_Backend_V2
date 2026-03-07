@@ -1,6 +1,7 @@
 package demago.khjv2.global.config;
 
 import demago.khjv2.global.config.filter.JwtAuthenticationFilter;
+import demago.khjv2.global.error.GlobalErrorCode;
 import demago.khjv2.global.security.jwt.JwtTokenProvider;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,14 +43,14 @@ public class SecurityConfig {
 
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((req, res, e) -> {
-                            res.setStatus(401);
+                            res.setStatus(GlobalErrorCode.UNAUTHORIZED.getStatus().value());
                             res.setContentType("application/json;charset=UTF-8");
-                            res.getWriter().write("{\"message\":\"인증이 필요합니다\"}");
+                            res.getWriter().write("{\"code\":\"" + GlobalErrorCode.UNAUTHORIZED.getCode() + "\",\"message\":\"" + GlobalErrorCode.UNAUTHORIZED.getMessage() + "\"}");
                         })
                         .accessDeniedHandler((req, res, e) -> {
-                            res.setStatus(403);
+                            res.setStatus(GlobalErrorCode.FORBIDDEN.getStatus().value());
                             res.setContentType("application/json;charset=UTF-8");
-                            res.getWriter().write("{\"message\":\"권한이 없습니다\"}");
+                            res.getWriter().write("{\"code\":\"" + GlobalErrorCode.FORBIDDEN.getCode() + "\",\"message\":\"" + GlobalErrorCode.FORBIDDEN.getMessage() + "\"}");
                         })
                 )
 
