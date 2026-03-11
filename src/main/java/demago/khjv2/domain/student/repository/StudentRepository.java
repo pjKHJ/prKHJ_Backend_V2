@@ -2,6 +2,8 @@ package demago.khjv2.domain.student.repository;
 
 import demago.khjv2.domain.student.entity.Student;
 import jakarta.persistence.QueryHint;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.QueryHints;
@@ -16,6 +18,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     // 백준 아이디 중복 체크
     boolean existsByBojId(String bojId);
+
+    List<Student> findAllByOrderByStudentNoAsc();
 
 
     //학생 삭제 기능은 JpaRepository에 이미 존재하므로 여기에 없어도 됨
