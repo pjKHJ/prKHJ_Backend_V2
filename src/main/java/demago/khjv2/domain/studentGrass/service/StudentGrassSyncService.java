@@ -10,7 +10,7 @@ import demago.khjv2.global.feignclient.boj.BojGrassResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
 
@@ -22,8 +22,8 @@ public class StudentGrassSyncService {
     private final StudentRepository studentRepository;
     private final BojGrassHistoryRepository bojGrassHistoryRepository;
     private final BojClient bojClient;
+    private final TransactionTemplate transactionTemplate;
 
-    @Transactional
     public void syncGrass() {
         List<Student> studentList = studentRepository.findAll();
 
@@ -41,16 +41,18 @@ public class StudentGrassSyncService {
                     continue;
                 }
 
-                BojGrassHistory history = bojGrassHistoryRepository.findByBojId(bojId)
-                        .orElseGet(() -> new BojGrassHistory(bojId));
+                transactionTemplate.executeWithoutResult(status -> {
+                    BojGrassHistory history = bojGrassHistoryRepository.findByBojId(bojId)
+                            .orElseGet(() -> new BojGrassHistory(bojId));
 
-                history.clearGrass();
+                    history.clearGrass();
 
-                for (BojGrassResponse.GrassDto dto : response.grass()) {
-                    history.addGrass(new BojGrass(dto.date(), dto.value()));
-                }
+                    for (BojGrassResponse.GrassDto dto : response.grass()) {
+                        history.addGrass(new BojGrass(dto.date(), dto.value()));
+                        }
 
-                bojGrassHistoryRepository.save(history);
+                    bojGrassHistoryRepository.save(history);
+                });
 
             } catch (Exception e) {
                 log.warn("잔디 동기화 실패 bojId = {}", bojId, e);
