@@ -8,11 +8,13 @@ import demago.khjv2.domain.studentGrass.repository.BojGrassHistoryRepository;
 import demago.khjv2.global.feignclient.boj.BojClient;
 import demago.khjv2.global.feignclient.boj.BojGrassResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class StudentGrassSyncService {
@@ -51,7 +53,7 @@ public class StudentGrassSyncService {
                 bojGrassHistoryRepository.save(history);
 
             } catch (Exception e) {
-                System.out.println("잔디 동기화 실패 bojId = " + bojId);
+                log.warn("잔디 동기화 실패 bojId = {}", bojId, e);
             }
         }
     }
