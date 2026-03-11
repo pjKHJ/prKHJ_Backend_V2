@@ -17,33 +17,33 @@ public class StudentDetails {
 
     @Id
     @Column(name = "student_id")
-    private Long studentId;
+    private Long studentDetailsId;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "student_id", foreignKey = @ForeignKey(name = "fk_student_detail_student"))
-    private Student student;
+    private Student studentId;
 
     @Column(nullable = false)
-    private Integer tier;
+    private int tier;
 
     @Column(name = "solved_total", nullable = false)
-    private Integer solvedTotal;
+    private int solvedTotal;
 
     @Column(name = "solved_today", nullable = false)
-    private Integer solvedToday;
+    private int solvedToday;
 
     @Column(name = "accuracy_pct", nullable = false)
-    private Integer accuracyPct;
+    private int accuracyPct;
 
     @Column(name = "current_streak", nullable = false)
-    private Integer currentStreak;
+    private int currentStreak;
 
     @Column(name = "longest_streak", nullable = false)
-    private Integer longestStreak;
+    private int longestStreak;
 
     @Column(nullable = false)
-    private Integer flame;
+    private int flame;
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
@@ -51,7 +51,7 @@ public class StudentDetails {
 
     public static StudentDetails empty(Student student) {
         return StudentDetails.builder()
-                .student(student)
+                .studentId(student)
                 .tier(0)
                 .solvedTotal(0)
                 .solvedToday(0)
