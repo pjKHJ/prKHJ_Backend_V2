@@ -12,11 +12,12 @@ public enum StudentErrorCode implements ErrorCode {
     INVALID_BULK_REQUEST(HttpStatus.BAD_REQUEST, "STD_400_02", "잘못된 일괄 학생 등록 요청입니다."),
     INVALID_DELETE_REQUEST(HttpStatus.BAD_REQUEST, "STD_400_03", "잘못된 학생 삭제 요청입니다."),
 
-    INVALID_STUDENT_NUMBER(HttpStatus.BAD_REQUEST, "STD_400_04", "학번은 1부터 9999 사이의 숫자여야 합니다."),
+    INVALID_STUDENT_NUMBER(HttpStatus.BAD_REQUEST, "STD_400_04", "학번은 1000~3999 범위의 4자리 숫자여야 합니다."),
     INVALID_BOJ_ID(HttpStatus.BAD_REQUEST, "STD_400_05", "BOJ ID는 1~50자 사이의 문자열이어야 합니다."),
     INVALID_STUDENT_NAME(HttpStatus.BAD_REQUEST, "STD_400_06", "학생 이름은 1~10자 사이여야 합니다."),
+    INVALID_GRASS_PERIOD(HttpStatus.BAD_REQUEST, "STD_400_07", "period는 1~365 사이의 숫자여야 합니다."),
 
-    BULK_CREATE_FAILED(HttpStatus.BAD_REQUEST, "STD_400_07", "등록 가능한 학생 데이터가 없습니다."),
+    BULK_CREATE_FAILED(HttpStatus.BAD_REQUEST, "STD_400_08", "등록 가능한 학생 데이터가 없습니다."),
 
     // ==================== 404 Not Found ====================
     STUDENT_NOT_FOUND(HttpStatus.NOT_FOUND, "STD_404", "학생을 찾을 수 없습니다."),
