@@ -1,8 +1,11 @@
 package demago.khjv2.global.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import demago.khjv2.global.config.filter.JwtAuthenticationFilter;
+import demago.khjv2.global.error.ErrorResponse;
 import demago.khjv2.global.error.GlobalErrorCode;
 import demago.khjv2.global.security.jwt.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.io.IOException;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -25,6 +30,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final ObjectMapper objectMapper;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,24 +42,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/v2/auth/**",
+                                "/api/v2/data/**",
                                 "/error"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint((req, res, e) -> {
-                            res.setStatus(GlobalErrorCode.UNAUTHORIZED.getStatus().value());
-                            res.setContentType("application/json;charset=UTF-8");
-                            res.getWriter().write("{\"code\":\"" + GlobalErrorCode.UNAUTHORIZED.getCode() + "\",\"message\":\"" + GlobalErrorCode.UNAUTHORIZED.getMessage() + "\"}");
-                        })
-                        .accessDeniedHandler((req, res, e) -> {
-                            res.setStatus(GlobalErrorCode.FORBIDDEN.getStatus().value());
-                            res.setContentType("application/json;charset=UTF-8");
-                            res.getWriter().write("{\"code\":\"" + GlobalErrorCode.FORBIDDEN.getCode() + "\",\"message\":\"" + GlobalErrorCode.FORBIDDEN.getMessage() + "\"}");
-                        })
+                        .authenticationEntryPoint((req, res, e) -> writeErrorResponse(req, res, GlobalErrorCode.UNAUTHORIZED))
+                        .accessDeniedHandler((req, res, e) -> writeErrorResponse(req, res, GlobalErrorCode.FORBIDDEN))
                 )
-
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -68,4 +65,14 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+
+    private void writeErrorResponse(HttpServletRequest request, HttpServletResponse response, GlobalErrorCode errorCode)
+            throws IOException {
+        response.setStatus(errorCode.getStatus().value());
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(objectMapper.writeValueAsString(
+                ErrorResponse.of(errorCode, request.getRequestURI())
+        ));
+    }
 }
+
