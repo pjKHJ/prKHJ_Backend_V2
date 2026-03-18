@@ -45,7 +45,7 @@ public class SecurityConfig {
                                 "/api/v2/data/**",
                                 "/error"
                         ).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .exceptionHandling(ex -> ex
                         .authenticationEntryPoint((req, res, e) -> writeErrorResponse(req, res, GlobalErrorCode.UNAUTHORIZED))
