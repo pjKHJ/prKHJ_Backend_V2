@@ -61,7 +61,5 @@ public class ManagementController {
         studentGrassSyncService.syncGrass();
 
         studentDetailsSyncService.flame();
-
-        return;
     }
 }

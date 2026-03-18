@@ -11,7 +11,6 @@ import demago.khjv2.global.error.exception.KHJException;
 import demago.khjv2.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,19 +32,19 @@ public class AuthService {
 //            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
 //        }
 
-        if (!verificationService.verify(request.code())) {
+        if (!verificationService.verify(request.signupCode())) {
             throw new KHJException(UserErrorCode.INVALID_VERIFICATION_CODE);
         }
 
         User user = User.of(
-                request.username(),
+                request.userName(),
                 passwordEncoder.encode(request.password())
         );
 
         try {
             User saved = userRepository.save(user);
 
-            return new JoinResponse(saved.getUsername());
+            return new JoinResponse(saved.getId(), saved.getUsername());
         } catch (DataIntegrityViolationException e) {
             throw new KHJException(UserErrorCode.USERNAME_ERROR_CODE);
 
@@ -54,7 +53,7 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public LoginResponse login(LoginRequest request) {
-        User user = userRepository.findByUsername(request.username())
+        User user = userRepository.findByUsername(request.userName())
                 .orElseThrow(() -> new KHJException(UserErrorCode.INVALID_CREDENTIALS));
 
         if (!passwordEncoder.matches(request.password(), user.getPassword())) {
